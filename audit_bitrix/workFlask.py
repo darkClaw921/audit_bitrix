@@ -2,20 +2,16 @@ from flask import Flask, request, render_template
 from flask_restx import Api, Resource, fields
 from pprint import pprint  
 from datetime import datetime
-# from workBitrix import get_task_work_time, create_item, get_crm_task, prepare_crm_task
-# from collections import deque
 import workBitrix
 from dotenv import load_dotenv
 import os
 import requests 
 from pprint import pformat
-# from werkzeug.contrib.fixers import ProxyFix
 
 load_dotenv()
 PORT=os.getenv('PORT')
 HOST=os.getenv('HOST')
 app = Flask(__name__)
-# app.wsgi_app = ProxyFix(app.wsgi_app)
 api = Api(app, version='1.0', title='tovar system API',description='A pkGroup API\nЛоги можно посмотреть по пути /logs\nОчистить логи можно по пути /clear_logs\n',)
 logs = []
 PAY_ENTY_ID=os.getenv('PAY_ENTY_ID')
@@ -33,8 +29,6 @@ class tovar_entity(Resource):
         # if enityID != f'{PAY_ENTY_ID}': return 'Not pay'
         
         workBitrix.main(dealID=dealID)
-        # print(f"{enityID=}")
-        # pprint(data)
         
         # pprint(a)
 
@@ -43,8 +37,6 @@ class tovar_entity(Resource):
     def get(self,):
         """Обновление сущности"""
         pprint(request)
-        # data = request.get_json() 
-        # pprint(data)
         return 'OK'
 
 
@@ -92,7 +84,6 @@ def index1():
         logR=request.get_json()
         # pprint(log)
         log_entry = logR.get('log_entry')
-        # log_entry = request.form.get('log_entry')
         if log_entry:
             # log_level = request.form.get('log_level', 'INFO')  # По умолчанию INFO
             log_level = logR.get('log_level', 'INFO')
@@ -137,8 +128,5 @@ def handle_post_request():
 
 if __name__ == '__main__':
     app.run(host=HOST, port=PORT, debug=False)
-    # dealID=17452
-    # workBitrix.main(dealID=dealID) 
-    # create_sum_deal(dealID)
 
     
